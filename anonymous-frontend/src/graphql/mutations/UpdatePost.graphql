@@ -1,0 +1,6 @@
+mutation UpdatePost($id: Int!, $body: String!) {
+  update_post_by_pk(pk_columns: { id: $id }, _set: { body: $body }) {
+    id
+    body
+  }
+}

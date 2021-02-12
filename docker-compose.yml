@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgis/postgis:11-3.0-alpine
+    environment:
+      POSTGRES_USER: hasura
+      POSTGRES_PASSWORD: hasura
+      POSTGRES_DB: hasura
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+  hasura:
+    image: hasura/graphql-engine:v1.3.3.cli-migrations-v2
+    depends_on:
+      - postgres
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://hasura:hasura@postgres:5432/hasura
+      HASURA_GRAPHQL_ADMIN_SECRET: changeme
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anonymous
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+
+volumes:
+  db-data:
