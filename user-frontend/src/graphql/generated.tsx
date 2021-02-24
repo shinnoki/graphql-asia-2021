@@ -122,7 +122,7 @@ export type Post = {
   __typename?: "post";
   body: Scalars["String"];
   id: Scalars["Int"];
-  user_id?: Maybe<Scalars["String"]>;
+  user_id: Scalars["String"];
 };
 
 /** aggregated selection of "post" */

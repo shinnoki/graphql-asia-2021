@@ -2,27 +2,28 @@ overwrite: true
 hooks:
   afterAllFileWrite:
     - prettier --write
-schema:
-  - http://localhost:8080/v1/graphql:
-      headers:
-        x-hasura-admin-secret: changeme
 generates:
   user-frontend/src/graphql/generated.tsx:
+    schema:
+      - http://localhost:8080/v1/graphql:
+          headers:
+            x-hasura-admin-secret: changeme
+            x-hasura-role: user
     documents:
       - "user-frontend/src/graphql/**/*.graphql"
     plugins:
       - "typescript"
       - "typescript-operations"
       - "typed-document-node"
-  # anonymous-frontend/src/graphql/generated.tsx:
-  #   schema:
-  #     - http://localhost:8080/v1/graphql:
-  #         headers:
-  #           x-hasura-admin-secret: changeme
-  #           x-hasura-role: anonymous
-  #   documents:
-  #     - "anonymous-frontend/src/graphql/**/*.graphql"
-  #   plugins:
-  #     - "typescript"
-  #     - "typescript-operations"
-  #     - "typed-document-node"
+  anonymous-frontend/src/graphql/generated.tsx:
+    schema:
+      - http://localhost:8080/v1/graphql:
+          headers:
+            x-hasura-admin-secret: changeme
+            x-hasura-role: anonymous
+    documents:
+      - "anonymous-frontend/src/graphql/**/*.graphql"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typed-document-node"
